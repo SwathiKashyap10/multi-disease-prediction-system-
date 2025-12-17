@@ -1,17 +1,40 @@
 import pickle
+import os
 import streamlit as st
 from streamlit_option_menu import option_menu
 
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 #loading the saved model
-Dscaler,diabetes_model = pickle.load(open('/Users/swathikashyap/Desktop/multiple-disease-prediction-system/saved models/diabetes_model.sav','rb'))
+Dscaler, diabetes_model = pickle.load(
+    open(os.path.join(BASE_DIR, 'diabetes_model.sav'), 'rb')
+)
 
-heart_disease_model = pickle.load(open('/Users/swathikashyap/Desktop/multiple-disease-prediction-system/saved models/heart_model.sav','rb'))
+# Heart
+heart_disease_model = pickle.load(
+    open(os.path.join(BASE_DIR, 'heart_model.sav'), 'rb')
+)
 
-Pscaler,parkinsons_model = pickle.load(open('/Users/swathikashyap/Desktop/multiple-disease-prediction-system/saved models/parkinsons_model.sav','rb'))
+# Parkinson's
+Pscaler, parkinsons_model = pickle.load(
+    open(os.path.join(BASE_DIR, 'parkinsons_model.sav'), 'rb')
+)
 
-Bscaler,breast_cancer_model = pickle.load(open('/Users/swathikashyap/Desktop/multiple-disease-prediction-system/saved models/breast_cancer_model.sav','rb'))
+# Breast Cancer
+Bscaler, breast_cancer_model = pickle.load(
+    open(os.path.join(BASE_DIR, 'breast_cancer_model.sav'), 'rb')
+)
 
-Cscaler,CKD_model = pickle.load(open('/Users/swathikashyap/Desktop/multiple-disease-prediction-system/saved models/ckd_model.sav','rb'))
+# CKD
+Cscaler, CKD_model = pickle.load(
+    open(os.path.join(BASE_DIR, 'ckd_model.sav'), 'rb')
+)
+
+
+
+def check_empty_inputs(inputs):
+    return any(value.strip() == "" for value in inputs)
 
 
 #sidebar for navigation
@@ -59,15 +82,20 @@ if(selected == 'Diabetes Prediction'):
     if st.button('Diabetes Test Result'):
         # Convert all inputs to float
         diab_user_input = [
-            float(Pregnancies),
-            float(Glucose),
-            float(BloodPressure),
-            float(SkinThickness),
-            float(Insulin),
-            float(BMI),
-            float(DiabetesPedigreeFunction),
-            float(Age)
+            Pregnancies,
+            Glucose,
+            BloodPressure,
+            SkinThickness,
+            Insulin,
+            BMI,
+            DiabetesPedigreeFunction,
+            Age
         ]
+        
+        # 🔴 Check for empty inputs
+        if check_empty_inputs(diab_user_input):
+           st.error("⚠️ All input fields must be filled before prediction.")
+           st.stop()
         
         try:
           diab_user_input_Final = [float(value) for value in diab_user_input]
@@ -147,20 +175,25 @@ if(selected == 'Heart Disease Prediction'):
     if st.button('Heart Disease Test Result'):
         # Convert all inputs to float
         heart_user_input = [
-            float(age),
-            float(sex),
-            float(cp),
-            float(trestbps),
-            float(chol),
-            float(fbs),
-            float(restecg),
-            float(thalach),
-            float(exang),
-            float(oldpeak),
-            float(slope),
-            float(ca),
-            float(thal)
+            age,
+            sex,
+            cp,
+            trestbps,
+            chol,
+            fbs,
+            restecg,
+            thalach,
+            exang,
+            oldpeak,
+            slope,
+            ca,
+            thal
         ]
+        
+        # 🔴 Check for empty inputs
+        if check_empty_inputs(heart_user_input):
+           st.error("⚠️ All input fields must be filled before prediction.")
+           st.stop()
         
         try:
           heart_user_input_Final = [float(value) for value in heart_user_input]
@@ -225,29 +258,34 @@ if selected == 'Parkinsons Disease Prediction':
     if st.button('Parkinson’s Test Result'):
             # Convert all inputs to float
             par_user_input = [
-                float(MDVP_Fo_Hz),
-                float(MDVP_Fhi_Hz),
-                float(MDVP_Flo_Hz),
-                float(MDVP_Jitter_percent),
-                float(MDVP_Jitter_Abs),
-                float(MDVP_RAP),
-                float(MDVP_PPQ),
-                float(Jitter_DDP),
-                float(MDVP_Shimmer),
-                float(MDVP_Shimmer_dB),
-                float(Shimmer_APQ3),
-                float(Shimmer_APQ5),
-                float(MDVP_APQ),
-                float(Shimmer_DDA),
-                float(NHR),
-                float(HNR),
-                float(RPDE),
-                float(DFA),
-                float(spread1),
-                float(spread2),
-                float(D2),
-                float(PPE)
+                MDVP_Fo_Hz,
+                MDVP_Fhi_Hz,
+                MDVP_Flo_Hz,
+                MDVP_Jitter_percent,
+                MDVP_Jitter_Abs,
+                MDVP_RAP,
+                MDVP_PPQ,
+                Jitter_DDP,
+                MDVP_Shimmer,
+                MDVP_Shimmer_dB,
+                Shimmer_APQ3,
+                Shimmer_APQ5,
+                MDVP_APQ,
+                Shimmer_DDA,
+                NHR,
+                HNR,
+                RPDE,
+                DFA,
+                spread1,
+                spread2,
+                D2,
+                PPE
             ]
+            
+            # 🔴 Check for empty inputs
+            if check_empty_inputs(par_user_input):
+               st.error("⚠️ All input fields must be filled before prediction.")
+               st.stop()
             
             try:
               par_user_input_Final = [float(value) for value in par_user_input]
@@ -330,37 +368,42 @@ if selected == 'Breast Cancer Prediction':
     if st.button('Breast Cancer Test Result'):
         # Convert all inputs to float
         bst_user_input = [
-            float(radius_mean),
-            float(texture_mean),
-            float(perimeter_mean),
-            float(area_mean),
-            float(smoothness_mean),
-            float(compactness_mean),
-            float(concavity_mean),
-            float(concave_points_mean),
-            float(symmetry_mean),
-            float(fractal_dimension_mean),
-            float(radius_se),
-            float(texture_se),
-            float(perimeter_se),
-            float(area_se),
-            float(smoothness_se),
-            float(compactness_se),
-            float(concavity_se),
-            float(concave_points_se),
-            float(symmetry_se),
-            float(fractal_dimension_se),
-            float(radius_worst),
-            float(texture_worst),
-            float(perimeter_worst),
-            float(area_worst),
-            float(smoothness_worst),
-            float(compactness_worst),
-            float(concavity_worst),
-            float(concave_points_worst),
-            float(symmetry_worst),
-            float(fractal_dimension_worst)
+            radius_mean,
+            texture_mean,
+            perimeter_mean,
+            area_mean,
+            smoothness_mean,
+            compactness_mean,
+            concavity_mean,
+            concave_points_mean,
+            symmetry_mean,
+            fractal_dimension_mean,
+            radius_se,
+            texture_se,
+            perimeter_se,
+            area_se,
+            smoothness_se,
+            compactness_se,
+            concavity_se,
+            concave_points_se,
+            symmetry_se,
+            fractal_dimension_se,
+            radius_worst,
+            texture_worst,
+            perimeter_worst,
+            area_worst,
+            smoothness_worst,
+            compactness_worst,
+            concavity_worst,
+            concave_points_worst,
+            symmetry_worst,
+            fractal_dimension_worst
         ]
+        
+        # 🔴 Check for empty inputs
+        if check_empty_inputs(bst_user_input):
+           st.error("⚠️ All input fields must be filled before prediction.")
+           st.stop()
         
         try:
           bst_user_input_Final = [float(value) for value in bst_user_input]
@@ -451,13 +494,36 @@ if(selected == 'CKD Prediction'):
         binary_map = {'yes':1,'no':0,'present':1,'notpresent':0,'normal':1,'abnormal':0,'good':1,'poor':0}
         
         ckd_input_data = [
-            float(age), float(bp), float(sg), float(al), float(su),
-            binary_map[rbc], binary_map[pc], binary_map[pcc], binary_map[ba],
-            float(bgr), float(bu), float(sc), float(sod), float(pot),
-            float(hemo), float(pcv), float(wbcc), float(rbcc),
-            binary_map[htn], binary_map[dm], binary_map[cad],
-            binary_map[appet], binary_map[pe], binary_map[ane]
+            age, 
+            bp,
+            sg,
+            al,
+            su,
+            binary_map[rbc],
+            binary_map[pc],
+            binary_map[pcc],
+            binary_map[ba],
+            bgr,
+            bu, 
+            sc,
+            sod,
+            pot,
+            hemo,
+            pcv,
+            wbcc,
+            rbcc,
+            binary_map[htn],
+            binary_map[dm],
+            binary_map[cad],
+            binary_map[appet],
+            binary_map[pe],
+            binary_map[ane]
         ]
+        
+        # 🔴 Check for empty inputs
+        if check_empty_inputs(ckd_input_data):
+           st.error("⚠️ All input fields must be filled before prediction.")
+           st.stop()
         
         try:
           ckd_user_input_Final = [float(value) for value in ckd_input_data]
