@@ -33,10 +33,6 @@ Cscaler, CKD_model = pickle.load(
 
 
 
-def check_empty_inputs(inputs):
-    return any(value.strip() == "" for value in inputs)
-
-
 #sidebar for navigation
 with st.sidebar:
     
@@ -52,28 +48,19 @@ if(selected == 'Diabetes Prediction'):
     col1,col2,col3 = st.columns(3)
     
     with col1:
-        Pregnancies = st.text_input('Number Of Pregnancies')
+        Pregnancies = st.number_input("Pregnancies", min_value=0, step=1)
+        SkinThickness = st.number_input("Skin Thickness", min_value=0)
+        DiabetesPedigreeFunction = st.number_input("Diabetes Pedigree Function",min_value=0.000,format="%.3f")
         
     with col2:
-        Glucose = st.text_input('Glucose Level')
+        Glucose = st.number_input("Glucose Level", min_value=0)
+        Insulin = st.number_input("Insulin Level", min_value=0)
+        Age = st.number_input("Age", min_value=1, step=1)
         
     with col3:
-        BloodPressure = st.text_input('Blood Pressure Value')
+        BloodPressure = st.number_input("Blood Pressure", min_value=0)
+        BMI = st.number_input("BMI", min_value=0.00 ,format="%.2f")
         
-    with col1:
-        SkinThickness = st.text_input('Skin Thickness Value')
-        
-    with col2:
-        Insulin = st.text_input('Insulin Level')
-        
-    with col3:
-        BMI = st.text_input('BMI Value')
-        
-    with col1:
-        DiabetesPedigreeFunction = st.text_input('Diabetes Pedigree Function Value')
-        
-    with col2:
-        Age = st.text_input('Age Of The Person')
         
     #code for prediction
     diab_diagnosis = ''
@@ -91,11 +78,6 @@ if(selected == 'Diabetes Prediction'):
             DiabetesPedigreeFunction,
             Age
         ]
-        
-        # 🔴 Check for empty inputs
-        if check_empty_inputs(diab_user_input):
-           st.error("⚠️ All input fields must be filled before prediction.")
-           st.stop()
         
         try:
           diab_user_input_Final = [float(value) for value in diab_user_input]
@@ -129,43 +111,23 @@ if(selected == 'Heart Disease Prediction'):
     col1,col2,col3 = st.columns(3)
     
     with col1:
-        age = st.text_input('Age')
+        age = st.number_input("Age", min_value=1)
+        trestbps = st.number_input("Resting Blood Pressure", min_value=0)
+        restecg = st.number_input("Rest ECG (1 = Abnormal, 0 = Normal)", min_value=0, max_value=1)
+        oldpeak = st.number_input("ST Depression (Oldpeak)", min_value=0.0,format="%.2f")
+        thal = st.number_input("Thalassemia (0–2)", min_value=0, max_value=2)
         
     with col2:
-        sex = st.text_input('Sex (1 = male; 0 = female)')
+        sex = st.number_input("Sex (1 = Male, 0 = Female)", min_value=0, max_value=1)
+        chol = st.number_input("Serum Cholesterol", min_value=0)
+        thalach = st.number_input("Maximum Heart Rate Achieved", min_value=0)
+        slope = st.number_input("Slope (0–2)", min_value=0, max_value=2)
         
     with col3:
-        cp = st.text_input('Chest Pain types')
-        
-    with col1:
-        trestbps = st.text_input('Resting Blood Pressure in mm Hg')
-        
-    with col2:
-        chol = st.text_input('Serum Cholestoral in mg/dl')
-        
-    with col3:
-        fbs = st.text_input('Fasting Blood Sugar > 120 mg/dl')
-        
-    with col1:
-        restecg = st.text_input('Resting Electrocardiographic results')
-        
-    with col2:
-        thalach = st.text_input('Maximum Heart Rate achieved')
-        
-    with col3:
-        exang = st.text_input('Exercise Induced Angina')
-        
-    with col1:
-        oldpeak = st.text_input('ST depression induced by exercise')
-        
-    with col2:
-        slope = st.text_input('Slope of the peak exercise ST segment')
-        
-    with col3:
-        ca = st.text_input('Major vessels colored by flourosopy')
-        
-    with col1:
-        thal = st.text_input('thal (0 = normal; 1 = fixed defect; 2 = reversable defect)')
+        cp = st.number_input("Chest Pain Type (1–3)", min_value=1, max_value=3)
+        fbs = st.number_input("Fasting Blood Sugar (1 = T, 0 = F)", min_value=0, max_value=1)
+        exang = st.number_input("Exercise Induced Angina (1 = T, 0 = F)", min_value=0, max_value=1)
+        ca = st.number_input("Number of Major Vessels (0–2)", min_value=0, max_value=2)
         
 
     #code for prediction
@@ -189,11 +151,6 @@ if(selected == 'Heart Disease Prediction'):
             ca,
             thal
         ]
-        
-        # 🔴 Check for empty inputs
-        if check_empty_inputs(heart_user_input):
-           st.error("⚠️ All input fields must be filled before prediction.")
-           st.stop()
         
         try:
           heart_user_input_Final = [float(value) for value in heart_user_input]
@@ -223,32 +180,33 @@ if selected == 'Parkinsons Disease Prediction':
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        MDVP_Fo_Hz = st.text_input('MDVP:Fo(Hz)')
-        MDVP_Jitter_percent = st.text_input('MDVP:Jitter(%)')
-        MDVP_PPQ = st.text_input('MDVP:PPQ')
-        MDVP_Shimmer_dB = st.text_input('MDVP:Shimmer(dB)')
-        MDVP_APQ = st.text_input('MDVP:APQ')
-        HNR = st.text_input('HNR')
-        spread1 = st.text_input('Spread1')
-        PPE = st.text_input('PPE')
+      MDVP_Fo_Hz = st.number_input("MDVP:Fo(Hz)", min_value=0.00000, format="%.5f")
+      MDVP_Jitter_percent = st.number_input("MDVP:Jitter(%)", min_value=0.00000, format="%.5f")
+      MDVP_PPQ = st.number_input("MDVP:PPQ", min_value=0.00000, format="%.5f")
+      MDVP_Shimmer_dB = st.number_input("MDVP:Shimmer(dB)", min_value=0.00000, format="%.5f")
+      MDVP_APQ = st.number_input("MDVP:APQ", min_value=0.00000, format="%.5f")
+      HNR = st.number_input("HNR", min_value=0.00000, format="%.5f")
+      spread1 = st.number_input("Spread1",max_value=-0.000000,format="%.6f")
+      PPE = st.number_input("PPE", min_value=0.000000, format="%.6f")
 
     with col2:
-        MDVP_Fhi_Hz = st.text_input('MDVP:Fhi(Hz)')
-        MDVP_Jitter_Abs = st.text_input('MDVP:Jitter(Abs)')
-        Jitter_DDP = st.text_input('Jitter:DDP')
-        Shimmer_APQ3 = st.text_input('Shimmer:APQ3')
-        Shimmer_DDA = st.text_input('Shimmer:DDA')
-        RPDE = st.text_input('RPDE')
-        spread2 = st.text_input('Spread2')
+      MDVP_Fhi_Hz = st.number_input("MDVP:Fhi(Hz)", min_value=0.00000, format="%.5f")
+      MDVP_Jitter_Abs = st.number_input("MDVP:Jitter(Abs)", min_value=0.00000, format="%.5f")
+      Jitter_DDP = st.number_input("Jitter:DDP", min_value=0.00000, format="%.5f")
+      Shimmer_APQ3 = st.number_input("Shimmer:APQ3", min_value=0.00000, format="%.5f")
+      Shimmer_DDA = st.number_input("Shimmer:DDA", min_value=0.00000, format="%.5f")
+      RPDE = st.number_input("RPDE", min_value=0.000000, format="%.6f")
+      spread2 = st.number_input("Spread2", min_value=0.000000, format="%.6f")
 
     with col3:
-        MDVP_Flo_Hz = st.text_input('MDVP:Flo(Hz)')
-        MDVP_RAP = st.text_input('MDVP:RAP')
-        MDVP_Shimmer = st.text_input('MDVP:Shimmer')
-        Shimmer_APQ5 = st.text_input('Shimmer:APQ5')
-        NHR = st.text_input('NHR')
-        DFA = st.text_input('DFA')
-        D2 = st.text_input('D2')
+      MDVP_Flo_Hz = st.number_input("MDVP:Flo(Hz)", min_value=0.00000, format="%.5f")
+      MDVP_RAP = st.number_input("MDVP:RAP", min_value=0.00000, format="%.5f")
+      MDVP_Shimmer = st.number_input("MDVP:Shimmer", min_value=0.00000, format="%.5f")
+      Shimmer_APQ5 = st.number_input("Shimmer:APQ5", min_value=0.00000, format="%.5f")
+      NHR = st.number_input("NHR", min_value=0.00000, format="%.5f")
+      DFA = st.number_input("DFA", min_value=0.000000, format="%.6f")
+      D2 = st.number_input("D2", min_value=0.000000, format="%.6f")
+ 
         
     
     # Prediction result variable
@@ -281,11 +239,7 @@ if selected == 'Parkinsons Disease Prediction':
                 D2,
                 PPE
             ]
-            
-            # 🔴 Check for empty inputs
-            if check_empty_inputs(par_user_input):
-               st.error("⚠️ All input fields must be filled before prediction.")
-               st.stop()
+
             
             try:
               par_user_input_Final = [float(value) for value in par_user_input]
@@ -323,42 +277,43 @@ if selected == 'Breast Cancer Prediction':
     
     
     with col1:
-        radius_mean = st.text_input('Radius Mean')
-        area_mean = st.text_input('Area Mean')
-        concavity_mean = st.text_input('Concavity Mean')
-        fractal_dimension_mean = st.text_input('Fractal Dimension Mean')
-        perimeter_se = st.text_input('Perimeter SE')
-        compactness_se = st.text_input('Compactness SE')
-        symmetry_se = st.text_input('Symmetry SE')
-        texture_worst = st.text_input('Texture Worst')
-        smoothness_worst = st.text_input('Smoothness Worst')
-        concave_points_worst = st.text_input('Concave Points Worst')
-        
+      radius_mean = st.number_input("Radius Mean", min_value=0.00,format="%.2f")
+      area_mean = st.number_input("Area Mean", min_value=0.00,format="%.2f")
+      concavity_mean = st.number_input("Concavity Mean", min_value=0.00000, format="%.5f")
+      fractal_dimension_mean = st.number_input("Fractal Dimension Mean", min_value=0.00000, format="%.5f")
+      perimeter_se = st.number_input("Perimeter SE", min_value=0.000,format="%.3f")
+      compactness_se = st.number_input("Compactness SE", min_value=0.000000, format="%.6f")
+      symmetry_se = st.number_input("Symmetry SE", min_value=0.00000, format="%.5f")
+      texture_worst = st.number_input("Texture Worst", min_value=0.00, format="%.2f")
+      smoothness_worst = st.number_input("Smoothness Worst", min_value=0.0000, format="%.4f")
+      concave_points_worst = st.number_input("Concave Points Worst", min_value=0.00000, format="%.5f")
+
     
     with col2:
-        texture_mean = st.text_input('Texture Mean')
-        smoothness_mean = st.text_input('Smoothness Mean')
-        concave_points_mean = st.text_input('Concave Points Mean')
-        radius_se = st.text_input('Radius SE')
-        area_se = st.text_input('Area SE')
-        concavity_se = st.text_input('Concavity SE')
-        fractal_dimension_se = st.text_input('Fractal Dimension SE')
-        perimeter_worst = st.text_input('Perimeter Worst')
-        compactness_worst = st.text_input('Compactness Worst')
-        symmetry_worst = st.text_input('Symmetry Worst')
+      texture_mean = st.number_input("Texture Mean", min_value=0.00,format="%.2f")
+      smoothness_mean = st.number_input("Smoothness Mean", min_value=0.00000, format="%.5f")
+      concave_points_mean = st.number_input("Concave Points Mean", min_value=0.00000, format="%.5f")
+      radius_se = st.number_input("Radius SE", min_value=0.0000, format="%.4f")
+      area_se = st.number_input("Area SE", min_value=0.00,format="%.2f")
+      concavity_se = st.number_input("Concavity SE", min_value=0.00000, format="%.5f")
+      fractal_dimension_se = st.number_input("Fractal Dimension SE", min_value=0.000000, format="%.6f")
+      perimeter_worst = st.number_input("Perimeter Worst", min_value=0.00,format="%.2f")
+      compactness_worst = st.number_input("Compactness Worst", min_value=0.0000, format="%.4f")
+      symmetry_worst = st.number_input("Symmetry Worst", min_value=0.0000,format="%.4f")
+
         
-    
     with col3:
-         perimeter_mean = st.text_input('Perimeter Mean')
-         compactness_mean = st.text_input('Compactness Mean')
-         symmetry_mean = st.text_input('Symmetry Mean')
-         texture_se = st.text_input('Texture SE')
-         smoothness_se = st.text_input('Smoothness SE')
-         concave_points_se = st.text_input('Concave Points SE')
-         radius_worst = st.text_input('Radius Worst')
-         area_worst = st.text_input('Area Worst')
-         concavity_worst = st.text_input('Concavity Worst')
-         fractal_dimension_worst = st.text_input('Fractal Dimension Worst')
+      perimeter_mean = st.number_input("Perimeter Mean", min_value=0.00,format="%.2f")
+      compactness_mean = st.number_input("Compactness Mean", min_value=0.00000, format="%.5f")
+      symmetry_mean = st.number_input("Symmetry Mean", min_value=0.00000, format="%.5f")
+      texture_se = st.number_input("Texture SE", min_value=0.0000, format="%.4f")
+      smoothness_se = st.number_input("Smoothness SE", min_value=0.000000, format="%.6f")
+      concave_points_se = st.number_input("Concave Points SE", min_value=0.000000,format="%.6f")
+      radius_worst = st.number_input("Radius Worst", min_value=0.00,format="%.2f")
+      area_worst = st.number_input("Area Worst", min_value=0.00,format="%.2f")
+      concavity_worst = st.number_input("Concavity Worst", min_value=0.00000, format="%.5f")
+      fractal_dimension_worst = st.number_input("Fractal Dimension Worst", min_value=0.00000, format="%.5f")
+
     
 
     # Prediction result variable
@@ -400,10 +355,6 @@ if selected == 'Breast Cancer Prediction':
             fractal_dimension_worst
         ]
         
-        # 🔴 Check for empty inputs
-        if check_empty_inputs(bst_user_input):
-           st.error("⚠️ All input fields must be filled before prediction.")
-           st.stop()
         
         try:
           bst_user_input_Final = [float(value) for value in bst_user_input]
@@ -438,52 +389,37 @@ if(selected == 'CKD Prediction'):
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        age = st.text_input('Age (Years)')
-        bp = st.text_input('Blood Pressure (mm/Hg)')
-        sg = st.text_input('Specific Gravity')
-        al = st.text_input('Albumin')
-        su = st.text_input('Sugar')
+      age = st.number_input("Age (Years)", min_value=1)
+      bp = st.number_input("Blood Pressure (mm/Hg)", min_value=0.00,format="%.2f")
+      sg = st.number_input("Specific Gravity", min_value=0.000, format="%.3f")
+      al = st.number_input("Albumin", min_value=0.0 ,format="%.2f")
+      su = st.number_input("Sugar", min_value=0.0,format="%.2f")
+      pcv = st.number_input("Packed Cell Volume", min_value=0)
+      htn = st.selectbox("Hypertension", ["yes", "no"])
+      appet = st.selectbox("Appetite", ["good", "poor"])
+
     
     with col2:
-        rbc = st.selectbox('Red Blood Cells', ['normal', 'abnormal'])
-        pc = st.selectbox('Pus Cell', ['normal', 'abnormal'])
-        pcc = st.selectbox('Pus Cell Clumps', ['present', 'notpresent'])
-        ba = st.selectbox('Bacteria', ['present', 'notpresent'])
-        bgr = st.text_input('Blood Glucose Random (mg/dl)')
+      rbc = st.selectbox("Red Blood Cells", ["normal", "abnormal"])
+      pc = st.selectbox("Pus Cell", ["normal", "abnormal"])
+      pcc = st.selectbox("Pus Cell Clumps", ["present", "notpresent"])
+      ba = st.selectbox("Bacteria", ["present", "notpresent"])
+      bgr = st.number_input("Blood Glucose Random (mg/dl)", min_value=0)
+      wbcc = st.number_input("White Blood Cell Count (cells/cmm)", min_value=0)
+      dm = st.selectbox("Diabetes Mellitus", ["yes", "no"])
+      pe = st.selectbox("Pedal Edema", ["yes", "no"])
+
     
     with col3:
-        bu = st.text_input('Blood Urea (mg/dl)')
-        sc = st.text_input('Serum Creatinine (mg/dl)')
-        sod = st.text_input('Sodium (mEq/L)')
-        pot = st.text_input('Potassium (mEq/L)')
-        hemo = st.text_input('Hemoglobin (gms)')
-    
-    with col1:
-        pcv = st.text_input('Packed Cell Volume')
-    
-    with col2:
-        wbcc = st.text_input('White Blood Cell Count (cells/cmm)')
-    
-    with col3:
-        rbcc = st.text_input('Red Blood Cell Count (millions/cmm)')
-    
-    with col1:
-        htn = st.selectbox('Hypertension', ['yes', 'no'])
-    
-    with col2:
-        dm = st.selectbox('Diabetes Mellitus', ['yes', 'no'])
-    
-    with col3:
-        cad = st.selectbox('Coronary Artery Disease', ['yes', 'no'])
-    
-    with col1:
-        appet = st.selectbox('Appetite', ['good', 'poor'])
-    
-    with col2:
-        pe = st.selectbox('Pedal Edema', ['yes', 'no'])
-    
-    with col3:
-        ane = st.selectbox('Anemia', ['yes', 'no'])
+      bu = st.number_input("Blood Urea (mg/dl)", min_value=0)
+      sc = st.number_input("Serum Creatinine (mg/dl)", min_value=0.00, format="%.2f")
+      sod = st.number_input("Sodium (mEq/L)", min_value=0.00,format="%.2f")
+      pot = st.number_input("Potassium (mEq/L)", min_value=0.00, format="%.2f")
+      hemo = st.number_input("Hemoglobin (gms)", min_value=0.00, format="%.2f")
+      rbcc = st.number_input("Red Blood Cell Count (millions/cmm)", min_value=0.000001, format="%.2f")
+      cad = st.selectbox("Coronary Artery Disease", ["yes", "no"])
+      ane = st.selectbox("Anemia", ["yes", "no"])
+
     
     # Prediction Section
     ckd_result = ''
@@ -520,10 +456,6 @@ if(selected == 'CKD Prediction'):
             binary_map[ane]
         ]
         
-        # 🔴 Check for empty inputs
-        if check_empty_inputs(ckd_input_data):
-           st.error("⚠️ All input fields must be filled before prediction.")
-           st.stop()
         
         try:
           ckd_user_input_Final = [float(value) for value in ckd_input_data]
